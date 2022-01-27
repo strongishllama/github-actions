@@ -13,4 +13,4 @@ jobs:
         with:
           dry: True
           only_changed: True
-          pretter_options: --check **./*
+          pretter_options: --check **./*.{js,ts}
