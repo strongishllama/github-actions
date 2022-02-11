@@ -7,6 +7,11 @@ on:
         description: The version of NodeJS to use, defaults to 16.x.
         required: false
         default: "16"
+      dry-run:
+        type: boolean
+        description: Whether the packaged code should be pushed or not, defaults to false.
+        required: false
+        default: false
 
 jobs:
   package:
@@ -24,10 +29,11 @@ jobs:
       - name: Run NCC
         run: npm run package
       - name: Push
+        if: ${{ inputs.dry-run == true }}
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           branch: main
-          commit_message: chore: automated package of dist directory
+          commit_message: "chore: automated package of dist directory"
           commit_user_name: GitHub Actions
           commit_user_email: github-actions@millhouse.dev
           file_pattern: dist/*
