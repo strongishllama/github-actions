@@ -1,0 +1,33 @@
+name: Typescript Action Package
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        type: string
+        description: The version of NodeJS to use, defaults to 16.x.
+        required: false
+        default: "16"
+
+jobs:
+  package:
+    name: Package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Setup NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ inputs.node-version }}
+      - name: Install Dependencies
+        run: npm ci --ignore-scripts
+      - name: Run NCC
+        run: npm run package
+      - name: Push
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          branch: main
+          commit_message: chore: automated package of dist directory
+          commit_user_name: GitHub Actions
+          commit_user_email: github-actions@millhouse.dev
+          file_pattern: dist/*
