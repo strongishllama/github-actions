@@ -22,10 +22,6 @@ jobs:
       - name: Install Dependencies
         run: npm ci --ignore-scripts
       - name: Run Prettier
-        uses: creyD/prettier_action@v4
-        with:
-          dry: True
-          only_changed: True
-          prettier_options: --check **/*.{js,ts}
+        run: npm run format-check
       - name: Run Tests
         run: npm run test
