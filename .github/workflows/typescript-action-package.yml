@@ -1,4 +1,5 @@
 name: Typescript Action Package
+
 on:
   workflow_call:
     inputs:
