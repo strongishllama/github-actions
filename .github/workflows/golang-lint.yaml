@@ -1,1 +1,36 @@
+name: Golang Lint
 
+on:
+  workflow_call:
+    inputs:
+      go-version:
+        type: string
+        description: The version of Golang to use, defaults to ^1.17.
+        required: false
+        default: ^1.17
+      test-path:
+        type: string
+        description: The path that the tests will be run from, defaults to ./...
+        default: ./...
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Setup Golang
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ inputs.go-version }}
+      - name: Run GolangCI
+        uses: golangci/golangci-lint-action@v2
+        with:
+          args: --config=.github/golangci.yml
+      - name: Run GoSec
+        uses: securego/gosec@master
+        with:
+          args: -conf .github/gosec.json ./...
+      - name: Run Tests
+        run: go test -v ${{ inputs.test-path }}
