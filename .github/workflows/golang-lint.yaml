@@ -5,13 +5,17 @@ on:
     inputs:
       go-version:
         type: string
-        description: The version of Golang to use, defaults to ^1.17.
+        description: The version of Golang to use, defaults to '^1.17'.
         required: false
         default: ^1.17
       test-path:
         type: string
-        description: The path that the tests will be run from, defaults to ./...
+        description: The path that the tests will be run from, defaults to './...'.
         default: ./...
+      golangci-path:
+        type: string
+        description: The path to the GolangCI config file.
+        default: ""
 
 jobs:
   lint:
@@ -26,6 +30,7 @@ jobs:
           go-version: ${{ inputs.go-version }}
       - name: Run GolangCI
         uses: golangci/golangci-lint-action@v2
+        if: ${{ input.golangci-path != "" }}
         with:
           args: --config=.github/golangci.yaml
       - name: Run GoSec
