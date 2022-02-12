@@ -27,7 +27,7 @@ jobs:
       - name: Run GolangCI
         uses: golangci/golangci-lint-action@v2
         with:
-          args: --config=.github/golangci.yml
+          args: --config=.github/golangci.yaml
       - name: Run GoSec
         uses: securego/gosec@master
         with:
