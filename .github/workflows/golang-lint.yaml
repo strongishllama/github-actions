@@ -14,7 +14,11 @@ on:
         default: ./...
       golangci-path:
         type: string
-        description: The path to the GolangCI config file.
+        description: The path to the GolangCI config file, defaults to no config file.
+        default: ""
+      gosec-path:
+        type: string
+        description: The path to the GoSec config file, defaults to no config file.
         default: ""
 
 jobs:
@@ -28,14 +32,21 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: ${{ inputs.go-version }}
-      - name: Run GolangCI
-        uses: golangci/golangci-lint-action@v2
+      - name: Run GolangCI (with config)
         if: ${{ inputs.golangci-path }}
+        uses: golangci/golangci-lint-action@v2
         with:
           args: --config=.github/golangci.yaml
-      - name: Run GoSec
+      - name: Run GolangCI (without config)
+        if: ${{ !inputs.golangci-path }}
+        uses: golangci/golangci-lint-action@v2
+      - name: Run GoSec (with config)
+        if: ${{ inputs.gosec-path }}
         uses: securego/gosec@master
         with:
           args: -conf .github/gosec.json ./...
+      - name: Run GoSec (without config)
+        if: ${{ !inputs.gosec-path }}
+        uses: securego/gosec@master
       - name: Run Tests
         run: go test -v ${{ inputs.test-path }}
