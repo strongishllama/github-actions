@@ -30,7 +30,7 @@ jobs:
           go-version: ${{ inputs.go-version }}
       - name: Run GolangCI
         uses: golangci/golangci-lint-action@v2
-        if: ${{ inputs.golangci-path != "" }}
+        if: ${{ inputs.golangci-path }}
         with:
           args: --config=.github/golangci.yaml
       - name: Run GoSec
