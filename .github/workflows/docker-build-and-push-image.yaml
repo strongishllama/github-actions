@@ -11,10 +11,11 @@ on:
         type: string
         description: The name of the Docker image that will be pushed to the registry.
         required: true
-    secrets:
       username:
+        type: string
         description: The username used to login to the registry.
         required: true
+    secrets:
       password:
         description: The password used to login to the registry.
         required: true
