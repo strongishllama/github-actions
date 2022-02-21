@@ -15,6 +15,10 @@ on:
         type: string
         description: The username used to login to the registry.
         required: true
+      tags:
+        type: string
+        description: A comma separated list of tags to use.
+        required: true
     secrets:
       password:
         description: The password used to login to the registry.
@@ -33,15 +37,9 @@ jobs:
           registry: ${{ inputs.registry }}
           username: ${{ inputs.username }}
           password: ${{ secrets.password }}
-      - name: Extract metadata for Docker
-        id: metadata
-        uses: docker/metadata-action@v3
-        with:
-          images: ${{ inputs.registry }}/${{ inputs.image-name }}
       - name: Build & push Docker image
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: ${{ steps.metadata.outputs.tags }}
-          labels: ${{ steps.metadata.outputs.labels }}
+          tags: ${{ inputs.tags }}
