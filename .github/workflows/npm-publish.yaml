@@ -17,6 +17,10 @@ on:
         type: string
         description: The package scope to publish under.
         required: true
+      package-version:
+        type: string
+        description: The package version to publish under.
+        required: true
     secrets:
       npm-token:
         required: true
@@ -34,6 +38,11 @@ jobs:
           node-version: ${{ inputs.node-version }}
           registry-url: ${{ inputs.registry-url }}
           scope: ${{ inputs.scope }}
+      - name: Updated Package Version
+        run: |
+          sed -i'.backup' -r 's/"version": "0.0.0"/"version": "${{ inputs.package-version }}"/' package.json
+          sed -i'.backup' -r 's/"version": "0.0.0"/"version": "${{ inputs.package-version }}"/' package-lock.json
+          rm package.json.backup rm package-json.backup
       - name: Install Dependencies (ignore scripts)
         run: npm ci --ignore-scripts
       - name: Run NPM Build
