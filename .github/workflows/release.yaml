@@ -1,0 +1,25 @@
+name: Release
+
+on:
+  workflow_call:
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Create Tag
+        run: |
+          git tag ${{ needs.bump-tag.outputs.bumped-tag }}
+          git push --tags
+      - name: Create Release
+        run: |
+          if [[ ${{ needs.bump-tag.outputs.bumped-tag }} == *"v0."* ]]; then
+            gh release create ${{ needs.bump-tag.outputs.bumped-tag }} --generate-notes --prerelease
+          else
+            gh release create ${{ needs.bump-tag.outputs.bumped-tag }} --generate-notes
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
