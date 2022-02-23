@@ -14,9 +14,13 @@ jobs:
     name: NPM Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ inputs.node-version }}
-      - run: npm ci --ignore-scripts
-      - run: npm run build
+      - name: Install Dependencies (ignore scripts)
+        run: npm ci --ignore-scripts
+      - name: Run NPM Build
+        run: npm run build
