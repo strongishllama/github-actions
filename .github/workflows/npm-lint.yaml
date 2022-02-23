@@ -1,4 +1,4 @@
-name: Typescript Lint
+name: NPM Lint
 
 on:
   workflow_call:
