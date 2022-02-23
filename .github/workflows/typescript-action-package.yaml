@@ -13,6 +13,13 @@ on:
         description: Whether the packaged code should be pushed or not, defaults to false.
         required: false
         default: false
+      commit-user-name:
+        type: string
+        description: The name of the user making the commit.
+        required: true
+      commit-user-email-address:
+        type: string
+        description: The email address of the making the commit.
 
 jobs:
   package:
@@ -21,11 +28,11 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
-      - name: Setup NodeJS
+      - name: Setup Node
         uses: actions/setup-node@v2
         with:
           node-version: ${{ inputs.node-version }}
-      - name: Install Dependencies
+      - name: Install Dependencies (ignore scripts)
         run: npm ci --ignore-scripts
       - name: Run NCC
         run: npm run package
@@ -35,6 +42,6 @@ jobs:
         with:
           branch: release
           commit_message: "chore: automated package of dist directory"
-          commit_user_name: GitHub Actions
-          commit_user_email: github-actions@millhouse.dev
+          commit_user_name: ${{ inputs.commit-user-name }}
+          commit_user_email: ${{ inputs.commit-user-email-address }}
           file_pattern: dist/
