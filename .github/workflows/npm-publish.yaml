@@ -8,8 +8,26 @@ on:
         description: The version of NodeJS to use, defaults to 16.x.
         required: false
         default: 16.x
+    secrets:
+      npm-token:
+        required: true
 
 jobs:
   publish:
     name: Publish
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Setup NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ inputs.node-version }}
+      - name: Install Dependencies (ignore scripts)
+        run: npm ci --ignore-scripts
+      - name: Run NPM Build
+        run: npm run build
+      - name: Publish
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.npm-token }}
