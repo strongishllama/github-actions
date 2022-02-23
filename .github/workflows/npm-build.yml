@@ -1,16 +1,22 @@
-name: NPM Test
+name: NPM Build
 
 on:
   workflow_call:
+    inputs:
+      node-version:
+        type: string
+        description: The version of NodeJS to use, defaults to 16.x.
+        required: false
+        default: 16.x
 
 jobs:
-  npm-test:
-    name: NPM Test
+  npm-build:
+    name: NPM Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: 14.x
+          node-version: ${{ inputs.node-version }}
       - run: npm ci --ignore-scripts
       - run: npm run build
