@@ -8,6 +8,15 @@ on:
         description: The version of NodeJS to use, defaults to 16.x.
         required: false
         default: 16.x
+      registry-url:
+        type: string
+        description: The URL of the NPM registry to use.
+        required: false
+        default: https://registry.npmjs.org
+      scope:
+        type: string
+        description: The package scope to publish under.
+        required: true
     secrets:
       npm-token:
         required: true
@@ -23,6 +32,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ inputs.node-version }}
+          registry-url: ${{ inputs.registry-url }}
+          scope: ${{ inputs.scope }}
       - name: Install Dependencies (ignore scripts)
         run: npm ci --ignore-scripts
       - name: Run NPM Build
