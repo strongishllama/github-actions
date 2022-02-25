@@ -12,14 +12,6 @@ on:
         type: string
         description: The path that the tests will be run from, defaults to './...'.
         default: ./...
-      golangci-path:
-        type: string
-        description: The path to the GolangCI config file, defaults to no config file.
-        default: ""
-      gosec-path:
-        type: string
-        description: The path to the GoSec config file, defaults to no config file.
-        default: ""
 
 jobs:
   lint:
@@ -48,5 +40,3 @@ jobs:
       - name: Run GoSec (without config)
         if: ${{ !inputs.gosec-path }}
         uses: securego/gosec@master
-      - name: Run Tests
-        run: go test -v ${{ inputs.test-path }}
