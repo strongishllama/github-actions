@@ -14,8 +14,8 @@ on:
         default: ./...
 
 jobs:
-  lint:
-    name: Lint
+  test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
