@@ -1,5 +1,4 @@
 name: NPM Lint
-
 on:
   workflow_call:
     inputs:
@@ -8,7 +7,11 @@ on:
         description: The version of NodeJS to use, defaults to 16.x.
         required: false
         default: 16.x
-
+      path:
+        type: string
+        description: The path where the files that will be linted are located.
+        required: false
+        default: .
 jobs:
   lint:
     name: Lint
@@ -16,6 +19,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
+      - name: Change Directory
+        run: cd ${{ inputs.path }}
       - name: Setup NodeJS
         uses: actions/setup-node@v2
         with:
