@@ -9,7 +9,7 @@ on:
         default: 16.x
       path:
         type: string
-        description: The path where the files that will be linted are located.
+        description: The path to the files being linted.
         required: false
         default: .
 jobs:
@@ -19,13 +19,13 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
-      - name: Change Directory
-        run: cd ${{ inputs.path }}
       - name: Setup NodeJS
         uses: actions/setup-node@v2
         with:
           node-version: ${{ inputs.node-version }}
       - name: Install Dependencies (ignore scripts)
         run: npm ci --ignore-scripts
+        working-directory: ${{ inputs.path }}
       - name: Run Prettier
         run: npm run format-check
+        working-directory: ${{ inputs.path }}
