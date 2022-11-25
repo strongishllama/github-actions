@@ -19,9 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup Golang
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v3
         with:
           go-version: ${{ inputs.go-version }}
       - name: Run GolangCI (with config)
@@ -31,7 +31,7 @@ jobs:
           args: --config=.github/golangci.yaml
       - name: Run GolangCI (without config)
         if: ${{ !inputs.golangci-path }}
-        uses: golangci/golangci-lint-action@v2
+        uses: golangci/golangci-lint-action@v3
       - name: Run GoSec (with config)
         if: ${{ inputs.gosec-path }}
         uses: securego/gosec@master
