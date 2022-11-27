@@ -3,9 +3,19 @@ name: Golang Test
 on:
   workflow_call:
     inputs:
+      aws-region:
+        type: string
+        description: The AWS region to run tests in, defaults to 'ap-southeast-2'.
+        required: false
+        default: ap-southeast-2
+      aws-role:
+        type: string
+        description: The AWS role to assume when running tests, not required if tests don't interact with AWS.
+        required: false
+        default: ""
       go-version:
         type: string
-        description: The version of Golang to use, defaults to '^1.17'.
+        description: The version of Golang to use, defaults to '^1.19'.
         required: false
         default: ^1.19
       test-args:
@@ -24,5 +34,11 @@ jobs:
         uses: actions/setup-go@v3
         with:
           go-version: ${{ inputs.go-version }}
+      - name: Configure AWS Credentials
+        if: ${{ inputs.aws-region != '' && inputs.aws-role != '' }}
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: ${{ inputs.aws-region }}
+          role-to-assume: ${{ inputs.aws-role }}
       - name: Run Tests
         run: go test ${{ inputs.test-args }}
