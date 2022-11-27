@@ -8,10 +8,10 @@ on:
         description: The version of Golang to use, defaults to '^1.17'.
         required: false
         default: ^1.17
-      test-path:
+      test-args:
         type: string
-        description: The path that the tests will be run from, defaults to './...'.
-        default: ./...
+        description: The args that the tests will use, defaults to '-v -race ./...'.
+        default: -v -race ./...
 
 jobs:
   test:
@@ -25,4 +25,4 @@ jobs:
         with:
           go-version: ${{ inputs.go-version }}
       - name: Run Tests
-        run: go test -v ${{ inputs.test-path }}
+        run: go test ${{ inputs.test-args }}
