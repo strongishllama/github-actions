@@ -20,4 +20,4 @@ jobs:
         run: curl -sL https://git.io/autotag-install | sudo sh -s -- -b /usr/bin
       - name: Run AutoTag
         id: auto-tag
-        run: echo "bumped-tag=v$(autotag -n)" >> GITHUB_OUTPUT
+        run: echo "bumped-tag=v$(autotag -n)" >> $GITHUB_OUTPUT
