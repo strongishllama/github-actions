@@ -7,7 +7,7 @@ on:
         type: string
         description: The version of Golang to use, defaults to '^1.17'.
         required: false
-        default: ^1.18
+        default: ^1.19
       test-args:
         type: string
         description: The args that the tests will use, defaults to '-v -race ./...'.
