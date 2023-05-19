@@ -47,7 +47,7 @@ jobs:
           sed -i'.backup' -r 's/"version": "0.0.0"/"version": "${{ inputs.package-version }}"/' package-lock.json
           rm package.json.backup
           rm package-lock.json.backup
-        working-directory: ${{ inputs.paths }}
+        working-directory: ${{ inputs.path }}
       - name: Install Dependencies (ignore scripts)
         run: npm ci --ignore-scripts
         working-directory: ${{ inputs.path }}
