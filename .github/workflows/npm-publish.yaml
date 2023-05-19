@@ -1,5 +1,4 @@
 name: NPM Publish
-
 on:
   workflow_call:
     inputs:
@@ -29,8 +28,14 @@ on:
     secrets:
       npm-token:
         required: true
-
 jobs:
+  check-inputs:
+    if: github.event.inputs.package-version == ''
+    name: Check Inputs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Input Check Failed
+        run: exit 1 
   publish:
     name: Publish
     runs-on: ubuntu-latest
