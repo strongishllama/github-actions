@@ -27,6 +27,7 @@ jobs:
           node-version: ${{ inputs.node-version }}
       - name: Install Dependencies (ignore scripts)
         run: npm ci --ignore-scripts
+        working-directory: ${{ inputs.path }}
       - name: Run NPM Build
         run: npm run build
         working-directory: ${{ inputs.path }}
