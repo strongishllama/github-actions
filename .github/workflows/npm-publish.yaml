@@ -34,7 +34,7 @@ jobs:
     name: Check Inputs
     runs-on: ubuntu-latest
     steps:
-      - name: Input Check Failed
+      - name: Inputs Check Failed
         run: exit 1 
   publish:
     name: Publish
